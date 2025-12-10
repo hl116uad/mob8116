@@ -1,19 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Tasks"
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hari Ini"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="26dp"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginTop="26dp">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBooks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <!-- Tempat Empty File yang Kosong -->
+        <LinearLayout
+            android:id="@+id/emptyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/emptyIcon"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/mdi__task_add"
+                app:tint="@color/LightGray_50" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Task Yet"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nikmati hari liburmu atau\nmulai buat daftar baru!"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="6dp"/>
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddBooks"
@@ -22,7 +81,7 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             android:backgroundTint="#427bf5"
-            android:src="@drawable/outline_add_24" />
+            android:src="@drawable/outline_add_24"/>
     </FrameLayout>
 
 </LinearLayout>

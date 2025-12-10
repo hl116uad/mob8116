@@ -1,6 +1,7 @@
 package hidayatlossen.prak8_116
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,26 +18,29 @@ import hidayatlossen.prak8_116.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var rvBooks: RecyclerView
-    private lateinit var booksRef : DatabaseReference
+    private lateinit var booksRef: DatabaseReference
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var adapter: BookAdapter
+    private val listBooks = mutableListOf<Book>()   // ← list tetap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        rvBooks = binding.rvBooks
-        rvBooks.layoutManager = LinearLayoutManager(this)
-
         booksRef = FirebaseDatabase.getInstance().getReference("books")
+
+        // Pasang adapter hanya 1x
+        adapter = BookAdapter(listBooks, booksRef)
+        binding.rvBooks.layoutManager = LinearLayoutManager(this)
+        binding.rvBooks.adapter = adapter
 
         fetchData()
         setupAddButton()
     }
 
     private fun fetchData() {
-
         booksRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val books = mutableListOf<Book>()
@@ -44,7 +48,28 @@ class MainActivity : AppCompatActivity() {
                     val book = data.getValue(Book::class.java)
                     book?.let { books.add(it) }
                 }
-                rvBooks.adapter = BookAdapter(books)
+
+                // Sortir data: completed = false di atas, completed = true di bawah
+                val sortedBooks = books.sortedBy { it.completed == true }
+
+                // Cek jika adapter sudah ada
+                if (binding.rvBooks.adapter == null) {
+                    binding.rvBooks.adapter = BookAdapter(sortedBooks.toMutableList(), booksRef)
+                } else {
+                    val adapter = binding.rvBooks.adapter as BookAdapter
+                    adapter.books.clear()
+                    adapter.books.addAll(sortedBooks)
+                    adapter.notifyDataSetChanged()
+                }
+
+                if (books.isEmpty()) {
+                    binding.emptyLayout.visibility = View.VISIBLE
+                    binding.rvBooks.visibility = View.GONE
+                } else {
+                    binding.emptyLayout.visibility = View.GONE
+                    binding.rvBooks.visibility = View.VISIBLE
+                }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -55,8 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAddButton() {
         binding.fabAddBooks.setOnClickListener {
-            val dialog = AddBookDialog(this, booksRef)
-            dialog.show()
+            AddBookDialog(this, booksRef).show()
         }
     }
 }
