@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "708935676018",
+    "firebase_url": "https://db-pmob8-116-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "db-pmob8-116",
+    "storage_bucket": "db-pmob8-116.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708935676018:android:367addbde4da188f2812eb",
+        "android_client_info": {
+          "package_name": "hidayatlossen.prak8_116"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1wUVIu8A-D0HWtMX179TVcgUMrU12MpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
